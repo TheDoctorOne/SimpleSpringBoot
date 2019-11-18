@@ -2,4 +2,12 @@
     <head>
         <title th:text= "'Hello ' + ${membername} + '!'"></title>
     </head>
+    <body>
+        <form action="" method="POST">
+            Name: <input type="text" name="name" placeholder="Your Name"><br>
+            E-Mail: <input type="email" name="mail" placeholder="Your E-Mail"><br>
+            Feedback <br><textarea rows="4" cols="50" placeholder="Enter Your Feedback"></textarea>
+            <input type="button" value="Send">
+        </form>
+    </body>
 </html>
