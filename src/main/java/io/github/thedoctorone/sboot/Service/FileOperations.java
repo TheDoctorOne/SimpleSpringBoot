@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
  * 
  * @param <E> is the class you want to write & read
  */
-public abstract class FileOperations<E> implements Serializable {
+public class FileOperations<E> implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private String path;
@@ -34,6 +34,10 @@ public abstract class FileOperations<E> implements Serializable {
             path = path.substring(0, path.length() - 2);
         }
         this.path = path;
+        File file = new File(path);
+        if(!file.exists()) {
+            file.mkdirs();
+        }
     }
 
     /**
@@ -100,14 +104,19 @@ public abstract class FileOperations<E> implements Serializable {
      * Reads the file according to filename
      * 
      * @param filename - name of the file
+     * @param suffix - suffix of the file ex: ".dat"
      * @return the object
      * @throws IOException
      * @throws ClassNotFoundException
      */
     @SuppressWarnings("unchecked")
-    public E read(@NotEmpty String filename) throws IOException, ClassNotFoundException {
+    public E read(@NotEmpty String filename, @NotEmpty String suffix) throws IOException, ClassNotFoundException {
         E object = null;
-        FileInputStream fis = new FileInputStream(new File(path + "/" + filename));
+        File file = new File(path + "/" + filename + suffix);
+        if(!file.exists()) {
+            return null;
+        }
+        FileInputStream fis = new FileInputStream(file);
         ObjectInputStream ois = new ObjectInputStream(fis);
         object = (E) ois.readObject();
         ois.close();
@@ -118,7 +127,11 @@ public abstract class FileOperations<E> implements Serializable {
     @SuppressWarnings("unchecked")
     public List<E> readAsList(@NotEmpty String filename) throws IOException, ClassNotFoundException {
         List<E> list = new ArrayList<>();
-        FileInputStream fis = new FileInputStream(new File(path + "/" + filename));
+        File file = new File(path + "/" + filename + ".list");
+        if(!file.exists()) {
+            return list;
+        }
+        FileInputStream fis = new FileInputStream(file);
         ObjectInputStream ois = new ObjectInputStream(fis);
         list = (List<E>) ois.readObject();
         ois.close();
@@ -137,7 +150,7 @@ public abstract class FileOperations<E> implements Serializable {
     public List<E> readDirectory() throws ClassNotFoundException, IOException {
         List<E> list = new ArrayList<>();
         File directory = new File(path); 
-        if(directory.isDirectory()) {
+        if(directory.isDirectory() && directory.exists()) {
             for(File file : directory.listFiles()) {
                 FileInputStream fis = new FileInputStream(file);
                 ObjectInputStream ois = new ObjectInputStream(fis);
@@ -145,6 +158,8 @@ public abstract class FileOperations<E> implements Serializable {
                 ois.close();
                 fis.close();
             }
+        } else {
+            directory.mkdir();
         }
         return list;
     }
@@ -160,7 +175,7 @@ public abstract class FileOperations<E> implements Serializable {
     public List<E> readDirectory(@NotEmpty String suffix) throws ClassNotFoundException, IOException {
         List<E> list = new ArrayList<>();
         File directory = new File(path); 
-        if(directory.isDirectory()) {
+        if(directory.isDirectory() && directory.exists()) {
             for(File file : directory.listFiles()) {
                 if(file.getName().endsWith(suffix)) {
                     FileInputStream fis = new FileInputStream(file);
@@ -170,6 +185,8 @@ public abstract class FileOperations<E> implements Serializable {
                     fis.close();
                 }
             }
+        } else {
+            directory.mkdir();
         }
         return list;
     }
