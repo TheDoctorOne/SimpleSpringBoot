@@ -1,8 +1,19 @@
 <html>
+        <script>
+                window.onload = function() {
+                    var element = document.getElementById("feedbackId");
+                    var content = element.innerHTML;
+                    while(content.includes("*-br-*")) {
+                        content = content.replace("*-br-*","<br>");
+                    }
+                    document.getElementById("feedbackId").innerHTML = content;
+                }
+            </script>
     <head>
         <title>Feedback List</title>
     </head>
     <body>
-        <p th:text = "${feedbacks}"></div>
+        <p id="feedbackId" th:text = "${feedbacks}" />
     </body>
+    
 </html>

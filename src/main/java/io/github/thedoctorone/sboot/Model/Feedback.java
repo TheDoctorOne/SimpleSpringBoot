@@ -44,6 +44,6 @@ public class Feedback implements Serializable {
 
     @Override
     public String toString() {
-        return id + " : " + name + " : " + mail + " : " + feedback;
+        return id + " | " + name + " : " + mail + " : " + feedback;
     }
 }

@@ -16,10 +16,9 @@ public class FeedbacksController {
     public String getFeedbacks(Model model) {
         String temp = "\n";
         for(Feedback feedback : fdh.getFeedbacks()) {
-            temp += feedback + " *** ";
+            temp += feedback + " *-br-* ";
         }
-        temp = temp.substring(0, temp.length() - 5);
-        
+        //temp = temp.substring(0, temp.length() - 5);
         model.addAttribute("feedbacks", temp);
         return "feedbacks";
     }
