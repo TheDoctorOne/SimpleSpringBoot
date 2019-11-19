@@ -1,5 +1,6 @@
 package io.github.thedoctorone.sboot.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +12,8 @@ import io.github.thedoctorone.sboot.Service.FeedbackDataHolder;
 
 @Controller
 public class HelloController {
-
-    private FeedbackDataHolder fdh = FeedbackDataHolder.feedHolder;
+    @Autowired
+    private FeedbackDataHolder fdh;
 
     @GetMapping("/hello*")
     public String sayHey(@RequestParam(name = "membername", defaultValue = "World", required = false)String membername, Model model) {

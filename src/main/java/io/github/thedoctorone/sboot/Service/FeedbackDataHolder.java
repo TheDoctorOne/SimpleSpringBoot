@@ -11,13 +11,11 @@ public class FeedbackDataHolder {
     private List<Feedback> feedbacks;
     private String filename;
 
-    public static FeedbackDataHolder feedHolder = new FeedbackDataHolder("data", "feedbacks");
-
     /**
      * @param path - Filepath
      * @param filename - Filename
      */
-    private FeedbackDataHolder(String path, String filename) {
+    public FeedbackDataHolder(String path, String filename) {
         this.filename = filename;
         operations = new FileOperations<Feedback>();
         operations.setFilePath(path);

@@ -1,5 +1,6 @@
 package io.github.thedoctorone.sboot.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +10,8 @@ import io.github.thedoctorone.sboot.Model.*;
 
 @Controller
 public class FeedbacksController {
-
-    private FeedbackDataHolder fdh = FeedbackDataHolder.feedHolder;
+    @Autowired
+    private FeedbackDataHolder fdh;
 
     @GetMapping("/feedbacks*")
     public String getFeedbacks(Model model) {
@@ -18,9 +19,7 @@ public class FeedbacksController {
         for(Feedback feedback : fdh.getFeedbacks()) {
             temp += feedback + " *-br-* ";
         }
-        //temp = temp.substring(0, temp.length() - 5);
         model.addAttribute("feedbacks", temp);
         return "feedbacks";
     }
-
 }
