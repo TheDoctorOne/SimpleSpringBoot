@@ -1,5 +1,10 @@
 <html>
     <head>
-        <title th:text="'Welcome ' + ${member}"></title>
+        <title th:text="'Welcome ' + ${user}"></title>
     </head>
+    <body style="background-color: antiquewhite; width: 100%; align-self: center;">
+            <table style="width: 100%; height: 100%;">
+                <tr style="height: 20%;"><td></td><td><h1 th:text="'Welcome ' + ${user}"></h1></td><td></td></tr>
+            </table>
+        </body>
 </html>

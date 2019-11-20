@@ -12,6 +12,31 @@ public class Member implements Serializable {
         this.password = password;
     }
 
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Member) {
+            Member temp = (Member) obj;
+            if(toString().equals(temp.toString())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public String toString() {

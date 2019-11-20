@@ -1,10 +1,13 @@
 package io.github.thedoctorone.sboot;
 
+import java.util.ArrayList;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import io.github.thedoctorone.sboot.Service.FeedbackDataHolder;
+import io.github.thedoctorone.sboot.Service.UserService;
 
 @SpringBootApplication
 public class Main {
@@ -16,6 +19,11 @@ public class Main {
 	@Bean
 	public FeedbackDataHolder feedbackDataHolder() {
 		return new FeedbackDataHolder("data", "feedbacks");
+	}
+
+	@Bean
+	public UserService userService() {
+		return new UserService("data", "users");
 	}
 
 }

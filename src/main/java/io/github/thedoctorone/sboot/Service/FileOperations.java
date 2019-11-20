@@ -83,7 +83,7 @@ public class FileOperations<E> implements Serializable {
     /**
      * @param list     of the objects - can not be empty
      * @param filename - name of the file
-     * @param suffix   - suffix will be ".list"
+     * suffix   - suffix will be ".list"
      * @throws IOException may occur
      */
     public void writeAsList(@NotEmpty List<E> list, String filename) throws IOException {
@@ -93,7 +93,7 @@ public class FileOperations<E> implements Serializable {
     /**
      * @param list     of the objects - can not be empty
      * @param filename - is class name
-     * @param suffix   - suffix will be ".list"
+     * suffix   - suffix will be ".list"
      * @throws IOException may occur
      */
     public void writeAsList(@NotEmpty List<E> list) throws IOException {
