@@ -1,9 +1,11 @@
 package io.github.thedoctorone.sboot.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
 
 import io.github.thedoctorone.sboot.Model.Member;
 
@@ -37,11 +39,14 @@ public class UserService {
      */
     private boolean readUsers() {
         try {
+            File file = new File(filename);
+            if(!file.exists())
+                return false;
             userList = fileOperations.readAsList(filename);
+            return true;
         } catch (ClassNotFoundException | IOException e) {
             return false;
         }
-        return true;
     }
     /**
      * Writes the user list to file 

@@ -1,7 +1,5 @@
 package io.github.thedoctorone.sboot.Controller;
 
-import java.util.HashMap;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -37,12 +35,12 @@ public class MainController implements ErrorController {
         }
         
     }
-    @PostMapping("/")
+    @PostMapping("/*")
     public String postIndex(@RequestParam(name = "username", required = true) String username ,
     @RequestParam(name = "password", required = true) String password , 
+    @RequestParam(name = "login", required = false) String buttonLogin,
+    @RequestParam(name = "register", required = false) String buttonRegister,
     Model model , HttpServletRequest req) {
-        String buttonLogin = (String) req.getAttribute("login");
-        String buttonRegister = (String) req.getAttribute("register");
         if(buttonLogin != null) {
             if(userService.loginCheck(username, password)){
                 req.getSession().setAttribute("username", username);
@@ -56,7 +54,7 @@ public class MainController implements ErrorController {
                 return "index2";
             }
         } 
-        model.addAttribute("company", "Welcome to " + company);
+        model.addAttribute("company", "wrong");
         return "index";
     }
 
