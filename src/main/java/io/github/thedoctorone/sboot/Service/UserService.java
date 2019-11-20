@@ -39,9 +39,11 @@ public class UserService {
      */
     private boolean readUsers() {
         try {
-            File file = new File(filename);
-            if(!file.exists())
+            File file = new File(path + "/" + filename + ".list");
+            if(!file.exists()) {
+                file.createNewFile();
                 return false;
+            }
             userList = fileOperations.readAsList(filename);
             return true;
         } catch (ClassNotFoundException | IOException e) {
@@ -72,8 +74,9 @@ public class UserService {
      */
     public boolean doWeHave(String username) {
         for(Member m : userList) {
-            if(m.getUsername().equals(username))
+            if(m.getUsername().trim().equals(username)) {
                 return true;
+            }
         }
         return false;
     }

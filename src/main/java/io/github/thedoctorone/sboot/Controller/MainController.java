@@ -23,6 +23,11 @@ public class MainController implements ErrorController {
     private UserService userService;
     @Value("${app.company}")
     private String company;
+
+    @GetMapping("/index")
+    public String urlIndex(Model model, HttpSession session) { 
+        return index(model, session);
+    }
     @GetMapping("/")
     public String index(Model model, HttpSession session) {
         String username = (String) session.getAttribute("username");
@@ -41,7 +46,10 @@ public class MainController implements ErrorController {
     @RequestParam(name = "login", required = false) String buttonLogin,
     @RequestParam(name = "register", required = false) String buttonRegister,
     Model model , HttpServletRequest req) {
-        if(buttonLogin != null) {
+        username = username.trim().toLowerCase();
+        if(username.equals("") || password.trim().equals("")) { //Returns wrong at bottom.
+
+        } else if(buttonLogin != null) {
             if(userService.loginCheck(username, password)){
                 req.getSession().setAttribute("username", username);
                 model.addAttribute("user", username);
