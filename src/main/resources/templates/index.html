@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Spring Session Experiment</title>
+    </head>
+    <body style="background-color: antiquewhite; width: 100%; align-self: center;">
+        <table style="width: 100%; height: 100%;">
+            <tr style="height: 20%;"><td></td><td><h1 th:text="'Welcome to ' + ${company}"></h1></td><td></td></tr>
+            <tr style="height: 20%;">
+                <td style="width: 40%;"></td>
+                <td style="width: 33%;"><!--Login & Register-->
+                    <form th:action="@{/index}" method="POST" style="font-family: Arial, Helvetica, sans-serif; align-self: center; width: 40%;">
+                        Username<input type="text" name="username" required="true" value="" style="width: 92%;"> <br> <br>
+                        Password<input type="password" name="password" required="true" value="" style="width: 92%;"> <br> <br>
+                        <input type="submit" value="Login" name="login" style="width: 45%; border-color: blueviolet; background-color: deeppink;">
+                        <input type="submit" value="Register" name="register" style="width: 45%; border-color: blueviolet; background-color: deeppink;">
+                    </form>
+                </td>
+                <td style="width: 33%;"></td>
+            </tr>
+            <tr></tr>
+        </table>
+        
+        
+    </body>
+</html>
