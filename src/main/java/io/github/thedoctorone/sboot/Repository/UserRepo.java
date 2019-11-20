@@ -1,4 +1,4 @@
-package io.github.thedoctorone.sboot.Service;
+package io.github.thedoctorone.sboot.Repository;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,19 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-
 import io.github.thedoctorone.sboot.Model.Member;
+import io.github.thedoctorone.sboot.Service.FileOperations;
+import io.github.thedoctorone.sboot.Service.FileOperationsImp;
 
-public class UserService {
+public class UserRepo {
     private List<Member> userList;
     private FileOperations<Member> fileOperations;
     private String filename;
     private String path;
 
-    public UserService(String path, String filename) {
+    public UserRepo(String path, String filename) {
         this.path = path;
         this.filename = filename;
-        fileOperations = new FileOperations<Member>();
+        fileOperations = new FileOperationsImp<Member>();
         fileOperations.setFilePath(this.path);
         if (!readUsers()) {
             this.userList = new ArrayList<Member>();

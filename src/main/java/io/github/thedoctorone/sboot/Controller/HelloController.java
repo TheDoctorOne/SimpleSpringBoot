@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import io.github.thedoctorone.sboot.Model.Feedback;
-import io.github.thedoctorone.sboot.Service.FeedbackDataHolder;
+import io.github.thedoctorone.sboot.Repository.FeedbackRepo;
 
 @Controller
 public class HelloController {
     @Autowired
-    private FeedbackDataHolder fdh;
+    private FeedbackRepo feedbackRepo;
 
     @GetMapping("/hello*")
     public String sayHey(@RequestParam(name = "membername", defaultValue = "World", required = false)String membername, Model model) {
@@ -26,8 +26,8 @@ public class HelloController {
         @RequestParam(name = "mail", required = true) String mail, 
         @RequestParam(name = "feedback", required = true) String feedback, Model model) {
             model.addAttribute("membername", name + "! We recieved your feedback!");
-            int id = fdh.getFeedbacks().size();
-            fdh.addFeedback(new Feedback(id, name, mail, feedback));
+            int id = feedbackRepo.getFeedbacks().size();
+            feedbackRepo.addFeedback(new Feedback(id, name, mail, feedback));
         return "hello";
     }
 }

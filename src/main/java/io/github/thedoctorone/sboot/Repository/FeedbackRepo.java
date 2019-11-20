@@ -1,23 +1,25 @@
-package io.github.thedoctorone.sboot.Service;
+package io.github.thedoctorone.sboot.Repository;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
 import io.github.thedoctorone.sboot.Model.Feedback;
+import io.github.thedoctorone.sboot.Service.FileOperations;
+import io.github.thedoctorone.sboot.Service.FileOperationsImp;
 
-public class FeedbackDataHolder {
+public class FeedbackRepo {
     private FileOperations<Feedback> operations;
     private List<Feedback> feedbacks;
     private String filename;
 
     /**
-     * @param path - Filepath
+     * @param path     - Filepath
      * @param filename - Filename
      */
-    public FeedbackDataHolder(String path, String filename) {
+    public FeedbackRepo(String path, String filename) {
         this.filename = filename;
-        operations = new FileOperations<Feedback>();
+        operations = new FileOperationsImp<Feedback>();
         operations.setFilePath(path);
         try {
             feedbacks = operations.readAsList(filename);

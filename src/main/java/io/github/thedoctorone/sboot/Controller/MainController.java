@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import io.github.thedoctorone.sboot.Service.UserService;
+import io.github.thedoctorone.sboot.Repository.UserRepo;
 
 @Controller
 public class MainController implements ErrorController {
 
     private static final String PATH = "/error";
     @Autowired
-    private UserService userService;
+    private UserRepo userRepo;
     @Value("${app.company}")
     private String company;
 
@@ -50,13 +50,13 @@ public class MainController implements ErrorController {
         if(username.equals("") || password.trim().equals("")) { //Returns wrong at bottom.
 
         } else if(buttonLogin != null) {
-            if(userService.loginCheck(username, password)){
+            if(userRepo.loginCheck(username, password)){
                 req.getSession().setAttribute("username", username);
                 model.addAttribute("user", username);
                 return "index2";
             }
         } else if (buttonRegister != null) {
-            if(userService.register(username, password)) {
+            if(userRepo.register(username, password)) {
                 req.getSession().setAttribute("username", username);
                 model.addAttribute("user", username);
                 return "index2";

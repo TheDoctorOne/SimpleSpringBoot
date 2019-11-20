@@ -4,8 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import io.github.thedoctorone.sboot.Service.FeedbackDataHolder;
-import io.github.thedoctorone.sboot.Service.UserService;
+import io.github.thedoctorone.sboot.Repository.*;
 
 @SpringBootApplication
 public class Main {
@@ -15,13 +14,13 @@ public class Main {
 	}
 
 	@Bean
-	public FeedbackDataHolder feedbackDataHolder() {
-		return new FeedbackDataHolder("data", "feedbacks");
+	public FeedbackRepo feedbackRepo() {
+		return new FeedbackRepo("data", "feedbacks");
 	}
 
 	@Bean
-	public UserService userService() {
-		return new UserService("data", "users");
+	public UserRepo userRepo() {
+		return new UserRepo("data", "users");
 	}
 
 }

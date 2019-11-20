@@ -1,14 +1,7 @@
 package io.github.thedoctorone.sboot.Service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
@@ -19,55 +12,33 @@ import javax.validation.constraints.NotNull;
  * 
  * @param <E> is the class you want to write & read
  */
-public class FileOperations<E> implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    private String path;
+public interface FileOperations<E> extends Serializable {
 
     /**
      * Set the file path.
      * 
      * @param path - File Path
      */
-    public void setFilePath(@NotEmpty String path) {
-        if (path.endsWith("/") || path.endsWith("\\")) {
-            path = path.substring(0, path.length() - 2);
-        }
-        this.path = path;
-        File file = new File(path);
-        if(!file.exists()) {
-            file.mkdirs();
-        }
-    }
+    public void setFilePath(@NotEmpty String path);
 
     /**
      * Returns path
      * 
      * @return - path
      */
-    public String getFilePath() {
-        return path;
-    }
+    public String getFilePath();
 
     /**
      * @param object
      * @param filename - name of the file
      * @param suffix   - suffix of the file, ex: ".dat"
      */
-    public void write(@NotNull Object object, @NotEmpty String filename, @NotEmpty String suffix) throws IOException {
-        FileOutputStream fos = new FileOutputStream(new File(path + "/" + filename + suffix));
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(object);
-        oos.close();
-        fos.close();
-    }
+    public void write(@NotNull Object object, @NotEmpty String filename, @NotEmpty String suffix) throws IOException;
 
     /**
      * Filename will be set to timestamp suffix will be the class name
      */
-    public void write(@NotNull E object) throws IOException {
-        write(object, Calendar.getInstance().getTimeInMillis() + "", object.getClass().getName());
-    }
+    public void write(@NotNull E object) throws IOException;
 
     /**
      * @param list     of the objects - can not be empty
@@ -75,10 +46,7 @@ public class FileOperations<E> implements Serializable {
      * @param suffix   - suffix of the file
      * @throws IOException may occur
      */
-    public void writeAsList(@NotEmpty List<E> list, @NotEmpty String filename, @NotEmpty String suffix)
-            throws IOException {
-        write(list, filename, suffix);
-    }
+    public void writeAsList(@NotEmpty List<E> list, @NotEmpty String filename, @NotEmpty String suffix) throws IOException;
 
     /**
      * @param list     of the objects - can not be empty
@@ -86,9 +54,7 @@ public class FileOperations<E> implements Serializable {
      * suffix   - suffix will be ".list"
      * @throws IOException may occur
      */
-    public void writeAsList(@NotEmpty List<E> list, String filename) throws IOException {
-        write(list, filename, ".list");
-    }
+    public void writeAsList(@NotEmpty List<E> list, String filename) throws IOException;
 
     /**
      * @param list     of the objects - can not be empty
@@ -96,9 +62,7 @@ public class FileOperations<E> implements Serializable {
      * suffix   - suffix will be ".list"
      * @throws IOException may occur
      */
-    public void writeAsList(@NotEmpty List<E> list) throws IOException {
-        write(list, list.get(0).getClass().getName(), ".list");
-    }
+    public void writeAsList(@NotEmpty List<E> list) throws IOException;
 
     /**
      * Reads the file according to filename
@@ -109,35 +73,9 @@ public class FileOperations<E> implements Serializable {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    @SuppressWarnings("unchecked")
-    public E read(@NotEmpty String filename, @NotEmpty String suffix) throws IOException, ClassNotFoundException {
-        E object = null;
-        File file = new File(path + "/" + filename + suffix);
-        if(!file.exists()) {
-            return null;
-        }
-        FileInputStream fis = new FileInputStream(file);
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        object = (E) ois.readObject();
-        ois.close();
-        fis.close();
-        return object;
-    }
+    public E read(@NotEmpty String filename, @NotEmpty String suffix) throws IOException, ClassNotFoundException;
 
-    @SuppressWarnings("unchecked")
-    public List<E> readAsList(@NotEmpty String filename) throws IOException, ClassNotFoundException {
-        List<E> list = new ArrayList<>();
-        File file = new File(path + "/" + filename + ".list");
-        if(!file.exists()) {
-            return list;
-        }
-        FileInputStream fis = new FileInputStream(file);
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        list = (List<E>) ois.readObject();
-        ois.close();
-        fis.close();
-        return list;
-    }
+    public List<E> readAsList(@NotEmpty String filename) throws IOException, ClassNotFoundException;
 
     /**
      * Reads the directory according to path, use it wisely!
@@ -146,23 +84,7 @@ public class FileOperations<E> implements Serializable {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    @SuppressWarnings("unchecked")
-    public List<E> readDirectory() throws ClassNotFoundException, IOException {
-        List<E> list = new ArrayList<>();
-        File directory = new File(path); 
-        if(directory.isDirectory() && directory.exists()) {
-            for(File file : directory.listFiles()) {
-                FileInputStream fis = new FileInputStream(file);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                list.add((E) ois.readObject());
-                ois.close();
-                fis.close();
-            }
-        } else {
-            directory.mkdir();
-        }
-        return list;
-    }
+    public List<E> readDirectory() throws ClassNotFoundException, IOException;
 
     /**
      * Reads the files at the directory according to their suffix 
@@ -171,23 +93,5 @@ public class FileOperations<E> implements Serializable {
      * @throws ClassNotFoundException
      * @throws IOException
      */
-    @SuppressWarnings("unchecked")
-    public List<E> readDirectory(@NotEmpty String suffix) throws ClassNotFoundException, IOException {
-        List<E> list = new ArrayList<>();
-        File directory = new File(path); 
-        if(directory.isDirectory() && directory.exists()) {
-            for(File file : directory.listFiles()) {
-                if(file.getName().endsWith(suffix)) {
-                    FileInputStream fis = new FileInputStream(file);
-                    ObjectInputStream ois = new ObjectInputStream(fis);
-                    list.add((E) ois.readObject());
-                    ois.close();
-                    fis.close();
-                }
-            }
-        } else {
-            directory.mkdir();
-        }
-        return list;
-    }
+    public List<E> readDirectory(@NotEmpty String suffix) throws ClassNotFoundException, IOException;
 }
