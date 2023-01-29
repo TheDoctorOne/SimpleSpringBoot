@@ -15,12 +15,19 @@ public class UserService {
 		pwEncoder = new BCryptPasswordEncoder();
 	}
 	
+	public boolean isUserExist(String username) {
+		return username != null && userRepository.existsById(username);
+	}
+	
 	public void saveUser(UserEntity user) {
 		user.setPassword(pwEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 	}
 	
 	public boolean checkPassword(UserEntity user) {
+		if(!isUserExist(user.getUsername())) {
+			return false;
+		}
 		UserEntity storedUser = userRepository.getReferenceById(user.getUsername());
 		return pwEncoder.matches(user.getPassword(), storedUser.getPassword());
 	}
