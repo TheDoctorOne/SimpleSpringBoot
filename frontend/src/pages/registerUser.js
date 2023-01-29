@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 
 
@@ -14,31 +15,60 @@ class UserRegisterPage extends React.Component {
 
     state = {
         username: null,
+        mail: null,
         password: null,
         repeatPassword: null,
-        mail: null,
         pendingApiCall: null
     }
 
-    OnFieldChange = (event) => {
+    onFieldChange = (event) => {
         const {name, value} = event.target;
         this.setState({
             [name]: value
         });
     };
 
+    onRegister = event => {
+        event.preventDefault();
+
+        const { username, mail, password, repeatPassword } = this.state;
+
+        if(repeatPassword !== password) {
+            return;
+        }
+
+        const reqBody = {
+            username,
+            mail,
+            password
+        };
+
+        this.setState({ pendingApiCall: true });
+        
+        axios
+            .post("/api/1.0/users/register", reqBody)
+            .then(reponse => {
+                this.setState({ pendingApiCall: false });
+            })
+            .catch(error => {
+                this.setState({ pendingApiCall: false });
+            });
+
+    };
+
 
     render() {
+        const { pendingApiCall } = this.state;
         return ( 
         <div className="container">
             <h1 className="text-center">Register</h1>
             <form>
-            {createInputField("Username", "username", "text", this.OnFieldChange)}
-            {createInputField("E-Mail", "mail", "mail", this.OnFieldChange)}
-            {createInputField("Password", "password", "password", this.OnFieldChange)}
-            {createInputField("Repeat Password", "repeatPassword", "password", this.OnFieldChange)}
+            {createInputField("Username", "username", "text", this.onFieldChange)}
+            {createInputField("E-Mail", "mail", "mail", this.onFieldChange)}
+            {createInputField("Password", "password", "password", this.onFieldChange)}
+            {createInputField("Repeat Password", "repeatPassword", "password", this.onFieldChange)}
             <div className="text-center">
-                <button className="btn btn-primary">
+                <button disabled={pendingApiCall} className="btn btn-primary" onClick={this.onRegister}>
                     Register
                 </button>
             </div>
