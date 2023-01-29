@@ -15,6 +15,7 @@ class UserRegisterPage extends React.Component {
 
     state = {
         username: null,
+        displayName: null,
         mail: null,
         password: null,
         repeatPassword: null,
@@ -31,7 +32,7 @@ class UserRegisterPage extends React.Component {
     onRegister = event => {
         event.preventDefault();
 
-        const { username, mail, password, repeatPassword } = this.state;
+        const { username, displayName, mail, password, repeatPassword } = this.state;
 
         if(repeatPassword !== password) {
             return;
@@ -39,6 +40,7 @@ class UserRegisterPage extends React.Component {
 
         const reqBody = {
             username,
+            displayName,
             mail,
             password
         };
@@ -64,6 +66,7 @@ class UserRegisterPage extends React.Component {
             <h1 className="text-center">Register</h1>
             <form>
             {createInputField("Username", "username", "text", this.onFieldChange)}
+            {createInputField("Display Name", "displayName", "text", this.onFieldChange)}
             {createInputField("E-Mail", "mail", "mail", this.onFieldChange)}
             {createInputField("Password", "password", "password", this.onFieldChange)}
             {createInputField("Repeat Password", "repeatPassword", "password", this.onFieldChange)}
@@ -74,8 +77,7 @@ class UserRegisterPage extends React.Component {
             </div>
             </form>
         </div>
-        )
-        ;
+        );
     }
 
 }
